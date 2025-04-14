@@ -1,0 +1,278 @@
+/* components/CreditCard.module.css */
+
+/* Removed * and body styles - place similar resets/defaults in globals.css */
+
+.mainContainer { /* Changed from ID */
+    /* Removed min-width/min-height/display/align/justify - The component shouldn't dictate page layout */
+    /* Keep if you ALWAYS want this component wrapped this way */
+     width: 100%; /* Example: Make it take container width */
+     display: flex;
+     justify-content: center; /* Center the card within its container */
+     padding: 20px 0; /* Add some padding */
+}
+
+.cardContainer { /* Changed from ID */
+    width: 350px;
+    height: 190px;
+    perspective: 1000px;
+    border-radius: 10px;
+}
+
+.card { /* Changed from ID */
+    width: 100%;
+    height: 100%;
+    color: white;
+    transition: transform 1s; /* Simplified transition */
+    position: relative;
+    border-radius: 10px;
+    perspective: 1000px;
+    font-family: 'Calibri', sans-serif; /* Added fallback */
+    transform-style: preserve-3d;
+}
+
+.front,
+.back { /* Changed from IDs */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0; /* Ensure absolute positioning starts top-left */
+    left: 0;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    background: linear-gradient(55deg, #0b0b0bfc 45%, rgb(25 25 25) 40%);
+}
+
+.back {
+    transform: rotateY(180deg);
+}
+
+/* Keep pseudo-elements as they are, attached to the classes */
+.front::before,
+.back::before {
+    content: '';
+    width: 100%;
+    height: 350px;
+    position: absolute;
+    left: -1%;
+    top: -80%; /* Adjusted positioning slightly based on common layouts */
+    transform: rotate(90deg);
+    border-radius: 50% 95% 0% 100%;
+    background: rgb(255 255 255 / 3%);
+    z-index: 1; /* Ensure it's above background but below text */
+}
+
+.front::after,
+.back::after {
+    content: '';
+    width: 100%;
+    height: 100%; /* Was height: 100%? Re-check original if needed */
+    position: absolute;
+    right: -50%;
+    top: -50%;
+    border-radius: 100% 0 100% 80%;
+    border: 1px solid rgba(239, 239, 239, 0.1); /* Made border less prominent */
+    z-index: 1;
+}
+
+.reflection {
+    width: 150%; /* Make wider to ensure coverage during move */
+    height: 150%; /* Make taller */
+    position: absolute;
+    top: -25%; /* Adjust position */
+    left: -25%; /* Adjust position */
+    z-index: 2; /* Above pseudo elements */
+    transition: transform 1s ease-in-out; /* Smoother transition */
+    overflow: hidden; /* Hide the part of the ::before that goes outside */
+    pointer-events: none; /* Don't block interaction */
+}
+
+.reflection::before {
+    content: '';
+    width: 80%; /* Adjusted size */
+    height: 200%; /* Adjusted size */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(50deg); /* Centered rotation */
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%); /* Softer gradient */
+    /* Removed box-shadow, often looks better with gradient */
+}
+
+.type {
+    top: 10%;
+    margin-left: 15px;
+    font-weight: bold;
+    color: transparent;
+    background: linear-gradient(62deg, #ffffff 0%, #aaaaaa 100%); /* Adjusted gradient */
+    position: relative;
+    z-index: 3; /* Above reflection */
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+.titleText { /* Changed from class */
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    font-size: 0.9em;
+    font-weight: bold;
+    z-index: 3;
+}
+
+.details {
+    position: relative;
+    top: 35%;
+    margin-left: 15px;
+    font-size: 12px;
+    z-index: 3;
+}
+
+.hiddenNumber { /* Changed from ID */
+    margin-bottom: 10px;
+    font-family: 'Courier New', Courier, monospace; /* Monospace for card numbers */
+    font-size: 1.1em;
+    letter-spacing: 2px;
+}
+
+.showBtn,
+.hideBtn { /* Changed from IDs */
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-family: 'Calibri', sans-serif;
+    background: rgba(28, 28, 107, 0.8); /* Slightly transparent */
+    z-index: 3;
+    transition: background 0.3s;
+}
+.showBtn:hover,
+.hideBtn:hover {
+     background: rgba(48, 48, 147, 0.9);
+}
+
+
+.logo {
+    position: absolute;
+    font-size: 10px;
+    width: 60px; /* Fixed width */
+    height: 36px; /* Fixed height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    bottom: 8%; /* Adjusted */
+    right: 5%; /* Adjusted */
+    z-index: 3;
+    color: rgba(255, 255, 255, 0.8); /* Slightly transparent text */
+}
+
+.logo::before,
+.logo::after {
+    content: '';
+    position: absolute;
+    width: 25px; /* Fixed size */
+    height: 25px; /* Fixed size */
+    border-radius: 50%;
+    z-index: -1; /* Behind the text */
+}
+
+.logo::before {
+    background: rgba(255, 0, 0, 0.7); /* Adjusted opacity */
+    left: 5px; /* Positioned circles */
+}
+
+.logo::after {
+    background: rgba(255, 160, 0, 0.7); /* Adjusted orange and opacity */
+    right: 5px; /* Positioned circles */
+    mix-blend-mode: screen; /* Blend overlapping circles */
+}
+
+/* Flipping */
+.flipped {
+    transform: rotateY(-180deg);
+}
+
+/* Chip styling */
+.chip { /* Changed from ID */
+    top: 10%;
+    position: absolute;
+    background: #e0ab89;
+    width: 50px; /* Fixed size */
+    height: 35px; /* Fixed size */
+    border-radius: 5px;
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.chip span {
+    position: absolute;
+    background: transparent; /* Make spans just borders */
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.chip span:nth-child(1) {
+    height: 100%;
+    width: 40%;
+    left: 50%;
+    transform: translateX(-50%); /* Center */
+    border-top: none;
+    border-bottom: none;
+}
+
+.chip span:nth-child(2) {
+    height: 60%;
+    width: 40%;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: none;
+    border-radius: 0 5px 5px 0; /* Only right border radius */
+}
+
+.chip span:nth-child(3) {
+    height: 60%;
+    width: 40%;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-right: none;
+    border-radius: 5px 0 0 5px; /* Only left border radius */
+}
+
+.chip span:nth-child(4) {
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.chip span:nth-child(5) {
+    /* Removed - simplified chip lines */
+    display: none;
+}
+
+/* Reflection Movement */
+.move {
+    transform: translateX(100%); /* Move reflection out */
+}
+
+
+/* CVV and Date */
+.cvv { /* Changed from ID */
+    display: inline-block; /* Allow margin */
+    font-family: 'Courier New', Courier, monospace;
+}
+.validDate { /* Changed from ID */
+    margin-left: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
